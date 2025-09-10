@@ -6,3 +6,4 @@ st.set_page_config(
 )
 
 st.title("Player Analysis")
+st.write("Coming soon.")

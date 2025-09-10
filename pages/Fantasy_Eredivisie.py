@@ -6,3 +6,4 @@ st.set_page_config(
 )
 
 st.title("Fantasy Eredivisie")
+st.write("Coming soon.")
