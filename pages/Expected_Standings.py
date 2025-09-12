@@ -6,14 +6,23 @@ st.set_page_config(
     page_icon="📊"
 )
 
-# Load the data
+# Load standings data based on selection
 @st.cache_data
-def load_data():
-    standings = pd.read_csv("expected_standings.csv")
-    results = pd.read_csv("expected_results.csv")
+def load_standings_data(table_type):
+    if table_type == "Expected Standings":
+        df = pd.read_csv("expected_standings.csv")
+    elif table_type == "Adjusted Expected Standings":
+        df = pd.read_csv("expected_adj_standings.csv")
+    else:  # Non-Penalty Standings
+        df = pd.read_csv("expected_np_standings.csv")
     
-    # Sort standings by Rank
-    standings = standings.sort_values('Rank')
+    # Sort by Rank
+    return df.sort_values('Rank')
+
+# Load results data (always needed)
+@st.cache_data
+def load_results_data():
+    results = pd.read_csv("expected_results.csv")
     
     # Fix column names (remove the period and add %)
     results = results.rename(columns={
@@ -33,12 +42,20 @@ def load_data():
     results['Draw %'] = results['Draw %'] * 100
     results['Away Win%'] = results['Away Win%'] * 100
     
-    return standings, results
-
-# Load the dataframes
-expected_standings, expected_results = load_data()
+    return results
 
 st.title("Expected Standings")
+st.write("Use the buttons below to choose between the Expected Eredivisie standings based on expected goals, adjusted expected goals, or non-penalty expected goals.")
+
+# Radio button selection for table type
+table_choice = st.radio(
+    "Select Standings Type:",
+    ["Expected Standings", "Adjusted Expected Standings", "Non-Penalty Expected Standings"],
+    horizontal=True
+)
+
+# Load only the selected standings data
+selected_standings = load_standings_data(table_choice)
 
 # Formatter for GD and xGD (with rounding for xGD)
 def plus_formatter(x):
@@ -48,17 +65,44 @@ def plus_formatter_1decimal(x):
     x_rounded = round(x, 1)
     return f"+{x_rounded:.1f}" if x_rounded > 0 else f"{x_rounded:.1f}"
 
-# Display the standings table (hide index, format GD, xGD, xG, xGA, xPTS)
+# Create format dictionary based on table type
+def get_format_dict(choice):
+    if choice == "Expected Standings":
+        return {
+            "GD": plus_formatter,
+            "xGD": plus_formatter_1decimal,
+            "xG": "{:.1f}".format,
+            "xGA": "{:.1f}".format,
+            "xPTS": "{:.1f}".format
+        }
+    elif choice == "Adjusted Expected Standings":
+        return {
+            "GD": plus_formatter,
+            "adjxGD": plus_formatter_1decimal,
+            "adjxG": "{:.1f}".format,
+            "adjxGA": "{:.1f}".format,
+            "adjxPTS": "{:.1f}".format
+        }
+    else:  # Non-Penalty Expected Standings
+        return {
+            "GD": plus_formatter,
+            "npxGD": plus_formatter_1decimal,
+            "npxG": "{:.1f}".format,
+            "npxGA": "{:.1f}".format,
+            "npxPTS": "{:.1f}".format
+        }
+
+# Get the appropriate format dictionary
+format_dict = get_format_dict(table_choice)
+
+# Display the selected standings table
 st.dataframe(
-    expected_standings.style.format({
-        "GD": plus_formatter,
-        "xGD": plus_formatter_1decimal,
-        "xG": "{:.1f}".format,
-        "xGA": "{:.1f}".format,
-        "xPTS": "{:.1f}".format
-    }),
+    selected_standings.style.format(format_dict),
     hide_index=True
 )
+
+# Load results data
+expected_results = load_results_data()
 
 # Display results with gameweek filter
 st.subheader("Expected Results")
@@ -87,4 +131,3 @@ st.dataframe(
         )
     }
 )
-
