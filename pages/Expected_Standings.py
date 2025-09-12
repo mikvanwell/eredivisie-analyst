@@ -45,7 +45,10 @@ def load_results_data():
     return results
 
 st.title("Expected Standings")
-st.write("Use the buttons below to choose between the Expected Eredivisie standings based on expected goals, adjusted expected goals, or non-penalty expected goals.")
+st.markdown(
+    "Use the buttons below to choose between the Expected Eredivisie standings based on expected goals, adjusted expected goals, or non-penalty expected goals. "
+    "You can read more about the method for adjusting xG [here](https://open.substack.com/pub/mikvanwell/p/normalising-xg-for-penalties-removing?r=4l6fci&utm_campaign=post&utm_medium=web&showWelcomeOnShare=true)."
+)
 
 # Radio button selection for table type
 table_choice = st.radio(
