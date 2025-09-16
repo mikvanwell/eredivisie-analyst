@@ -11,13 +11,13 @@ st.set_page_config(
 def load_standings_data(table_type):
     if table_type == "Expected Standings":
         df = pd.read_csv("expected_standings.csv")
+        return df.sort_values('xRank')
     elif table_type == "Adjusted Expected Standings":
         df = pd.read_csv("expected_adj_standings.csv")
-    else:  # Non-Penalty Standings
+        return df.sort_values('adjxRank')
+    else:  # Expected Non-Penalty Standings
         df = pd.read_csv("expected_np_standings.csv")
-    
-    # Sort by Rank
-    return df.sort_values('Rank')
+        return df.sort_values('npxRank')
 
 # Load results data (always needed)
 @st.cache_data
