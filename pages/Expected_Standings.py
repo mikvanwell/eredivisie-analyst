@@ -52,7 +52,7 @@ st.markdown(
 
 # Radio button selection for table type
 table_choice = st.radio(
-    "Select Standings Type:",
+    "Select standings type:",
     ["Expected Standings", "Adjusted Expected Standings", "Non-Penalty Expected Standings"],
     horizontal=True
 )
