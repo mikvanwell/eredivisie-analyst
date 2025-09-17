@@ -125,8 +125,8 @@ def create_standings_graph(df, table_type):
 
         if abs(actual_pts - expected_pts) >= 1:
             direction = 1 if expected_pts > actual_pts else -1
-            arrow_start = actual_pts + (direction * circle_radius)
-            arrow_end = expected_pts - (direction * circle_radius)
+            arrow_start = actual_pts + (direction * circle_radius * 0.6)
+            arrow_end = expected_pts - (direction * circle_radius * 0.6)
 
             fig.add_trace(go.Scatter(
                 x=[arrow_start, arrow_end],
@@ -141,7 +141,7 @@ def create_standings_graph(df, table_type):
     fig.update_layout(
         title=f"{title_suffix} Points vs Actual Points by Team",
         xaxis_title="Points",
-        yaxis_title="Teams (by Actual Rank)",
+        yaxis_title="Teams (by actual Rank)",
         height=600,
         showlegend=False,
         hovermode='closest',
