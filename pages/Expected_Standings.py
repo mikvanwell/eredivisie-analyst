@@ -4,7 +4,8 @@ import plotly.graph_objects as go
 
 st.set_page_config(
     page_title="Expected Standings",
-    page_icon="📊"
+    page_icon="📊",
+    layout="wide"
 )
 
 # Load standings data based on selection
@@ -123,10 +124,10 @@ def create_standings_graph(df, table_type):
             hovertemplate=f"<b>{team}</b><br>Expected Rank: {expected_rank}<br>Expected Points: {expected_pts:.1f}<extra></extra>"
         ))
 
-        if abs(actual_pts - expected_pts) >= 1:
+        if abs(actual_pts - expected_pts) >= 0.5:
             direction = 1 if expected_pts > actual_pts else -1
-            arrow_start = actual_pts + (direction * circle_radius * 0.6)
-            arrow_end = expected_pts - (direction * circle_radius * 0.6)
+            arrow_start = actual_pts + (direction * circle_radius * 0.2)
+            arrow_end = expected_pts - (direction * circle_radius * 0.2)
 
             fig.add_trace(go.Scatter(
                 x=[arrow_start, arrow_end],
