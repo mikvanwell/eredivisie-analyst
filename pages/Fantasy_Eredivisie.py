@@ -12,7 +12,7 @@ st.title("Fantasy Eredivisie")
 st.subheader("FDR Schedule")
 st.markdown(
     "The Fixture Difficulty Rating schedule below can help you plan your transfers and team selection strategy. "
-    "FDR is determined based on recent relative offensive and defensive performance. More information about the calculation can be found here."
+    "FDR is determined based on recent relative offensive and defensive performance. More information about the calculation can be found [here](https://open.substack.com/pub/mikvanwell/p/calculating-fixture-difficulty?r=4l6fci&utm_campaign=post&utm_medium=web&showWelcomeOnShare=true)."
 )
 st.markdown(
     "You can choose which position group you want to optimise the schedule for. "
