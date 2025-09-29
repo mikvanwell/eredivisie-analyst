@@ -126,8 +126,8 @@ def create_standings_graph(df, table_type):
 
         if abs(actual_pts - expected_pts) >= 0.5:
             direction = 1 if expected_pts > actual_pts else -1
-            arrow_start = actual_pts + (direction * circle_radius * 0.2)
-            arrow_end = expected_pts - (direction * circle_radius * 0.2)
+            arrow_start = actual_pts + (direction * circle_radius * 0.3)
+            arrow_end = expected_pts - (direction * circle_radius * 0.3)
 
             fig.add_trace(go.Scatter(
                 x=[arrow_start, arrow_end],
